@@ -16,7 +16,7 @@ string input_path = "input/input.txt";
 __device__ const double G = 6.674e-11; // гравитационная постоянная
 __device__ const double dt = 0.001; // шаг по времени
 __device__ const double e = 0.001; // чтобы сила не ушла в бесконечность
-__device__ const double t_max = 20; // конечное время
+__device__ const double t_end = 20; // конечное время
 __device__ double t = 0; // начальное время
 
 int block_count = 1; // число блоков (thread_count выбирается динамически)
@@ -83,7 +83,7 @@ __device__ void print_results(const double t, const MatPoint points[]) {
 
 __global__ void Routine(MatPoint points[], Direction forces[]){ // функция, запускаемая на девайсе
     // printf("%f %f %f %f %f\n", points[threadIdx.x].x, points[threadIdx.x].y, points[threadIdx.x].vx, points[threadIdx.x].vy, points[ithreadIdx.x].m);
-    while (t < t_max) {
+    while (t < t_end) {
         calcForce(points, forces); // считаем силы, действующие на все точки
         __syncthreads(); // синхронизируемся перед обновлением данных точек
         simulationStep(points, forces); // обновляем данные точек
