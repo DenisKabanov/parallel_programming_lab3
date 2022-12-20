@@ -31,7 +31,7 @@ struct MatPoint { // класс для материальной точки
 
 struct Direction {
     double f_x; // сила по направлению x
-    double f_y; // сила по направлению н
+    double f_y; // сила по направлению y
 };
 
 MatPoint *points; // материальные точки
