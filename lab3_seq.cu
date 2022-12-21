@@ -1,13 +1,17 @@
 #include <iostream>
 #define _USE_MATH_DEFINES
-#include <math.h>
 #include <vector>
 #include <utility>
 #include <fstream>
+#include <string>
+#include <cmath>
+
+std::string input_path = "input/input.txt"; // путь для считывания начальных данных
+std::string output_path = "output/output.txt"; // путь для записи полученных результатов
 
 const double G = 6.674e-11; // гравитационная постоянная
 const double dt = 0.001; // шаг по времени
-const double e = 0.001; // чтобы сила не ушла в бесконечность
+const double e = 0.01; // чтобы сила не ушла в бесконечность
 
 class MatPoint { // класс для материальной точки
     public:
@@ -53,8 +57,8 @@ void simulationStep(std::vector<MatPoint>& points, const std::vector<std::pair<d
     }
 }
 
-void read_file(std::vector<MatPoint>& points) { // заполнение вектора точек, считывание формата "x y v_x v_y m"
-    std::ifstream file("input/input.txt");
+void read_file(std::vector<MatPoint>& points, std::string input_path = "input/input.txt") { // заполнение вектора точек, считывание формата "x y v_x v_y m"
+    std::ifstream file(input_path);
     double x, y, vx, vy, m;
     while (!file.eof()) {
         file >> x >> y >> vx >> vy >> m;
@@ -67,7 +71,7 @@ void read_file(std::vector<MatPoint>& points) { // заполнение вект
 void print_results(std::ofstream& file, double t, const std::vector<MatPoint> points) {
     file << t << " ";
     for (const auto &point: points) {
-        file << point.x << "," << point.y << ", "; 
+        file << point.x << " " << point.y << " "; 
     }
     file << "\n";
 }
@@ -80,16 +84,20 @@ void print_results(std::ofstream& file, double t, const std::vector<MatPoint> po
 // }
 //===============================
 
-int main() {
-    std::vector<MatPoint> points; // создание объекта для хранения информации о точках
-    read_file(points); // взятие данных из файла
-
-    std::ofstream file("output/output.txt");
-    file << "t\t";
-    for (unsigned i = 0; i < points.size(); ++i) {
-        file << "x " << i + 1 << " y " << i + 1 << "\t";
+int main(int argc, char* argv[]) {
+    if (argc == 3) { // проверка наличия аргумента (сама программа + путь для считывания файла + путь для записи)
+        input_path = argv[1];
+        output_path = argv[2];
     }
-    file << "\n";
+    std::vector<MatPoint> points; // создание объекта для хранения информации о точках
+    read_file(points, input_path); // взятие данных из файла
+
+    std::ofstream file(output_path);
+    // file << "t\t";
+    // for (unsigned i = 0; i < points.size(); ++i) {
+    //     file << "x " << i + 1 << " y " << i + 1 << "\t";
+    // }
+    // file << "\n";
 
     double t = 0; // начальное время
     while(t < 20) { // цикл по времени 
@@ -99,5 +107,6 @@ int main() {
         // print_results(t, points); // выводим результат на шаге
         t += dt; // увеличиваем время
     }
+    file.close();
     return 0;
 }

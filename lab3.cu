@@ -15,7 +15,7 @@ string input_path = "input/input.txt";
 
 __device__ const double G = 6.674e-11; // гравитационная постоянная
 __device__ const double dt = 0.001; // шаг по времени
-__device__ const double e = 0.001; // чтобы сила не ушла в бесконечность
+__device__ const double e = 0.01; // чтобы сила не ушла в бесконечность
 __device__ const double t_end = 20; // конечное время
 __device__ double t = 0; // начальное время
 
@@ -92,10 +92,13 @@ __global__ void Routine(MatPoint points[], Direction forces[]){ // функци�
             print_results(t, points); // выводим результат на шаге
             t += dt; // увеличиваем время
         }
+        // __syncthreads();
     }
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+    if (argc == 2) // проверка наличия аргумента (сама программа + путь для считывания файла)
+        input_path = argv[1];
     // считаем число строк в файле ==> столько будет потоков
     ifstream file1(input_path);
     int thread_count = 0;
@@ -103,6 +106,7 @@ int main() {
     while (getline(file1, line))
         ++thread_count;
     file1.close();
+
     cudaMallocManaged(&points, thread_count * sizeof(MatPoint)); // выделение памяти под точки
     cudaMallocManaged(&forces, thread_count * sizeof(Direction)); // выделение памяти по действующие силы
 
