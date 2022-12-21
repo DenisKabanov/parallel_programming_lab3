@@ -5,6 +5,10 @@
 #include <fstream>
 #include <string>
 #include <cmath>
+#include <chrono>
+#include <iomanip>
+
+using namespace std::chrono;
 
 std::string input_path = "input/input.txt"; // путь для считывания начальных данных
 std::string output_path = "output/output.txt"; // путь для записи полученных результатов
@@ -92,21 +96,21 @@ int main(int argc, char* argv[]) {
     std::vector<MatPoint> points; // создание объекта для хранения информации о точках
     read_file(points, input_path); // взятие данных из файла
 
-    std::ofstream file(output_path);
-    // file << "t\t";
-    // for (unsigned i = 0; i < points.size(); ++i) {
-    //     file << "x " << i + 1 << " y " << i + 1 << "\t";
-    // }
-    // file << "\n";
+    auto start = high_resolution_clock::now();
 
+    std::ofstream file(output_path);
     double t = 0; // начальное время
     while(t < 20) { // цикл по времени 
         auto forces = calcForce(points); // считаем силы, действующие на все точки
         simulationStep(points, forces); // делаем шаг
-        print_results(file, t, points);
-        // print_results(t, points); // выводим результат на шаге
+        print_results(file, t, points); // выводим результат на шаге
         t += dt; // увеличиваем время
     }
     file.close();
+
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(stop - start);
+    // std::cout << std::fixed << std::setprecision(12) << duration.count() * 1e-9 << std::endl;
+
     return 0;
 }

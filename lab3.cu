@@ -92,7 +92,6 @@ __global__ void Routine(MatPoint points[], Direction forces[]){ // функци�
             print_results(t, points); // выводим результат на шаге
             t += dt; // увеличиваем время
         }
-        // __syncthreads();
     }
 }
 
@@ -123,8 +122,10 @@ int main(int argc, char* argv[]) {
     file2.close();
 
     auto start = high_resolution_clock::now();
+
     Routine<<<block_count, thread_count>>>(points, forces); // вызов девайсной функции (передаём число блоков и число потоков в блоке)
     cudaDeviceSynchronize();
+
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<nanoseconds>(stop - start);
     // cout << fixed << setprecision(12) << duration.count() * 1e-9 << endl;
