@@ -142,3 +142,46 @@ lab3.out input/input64.txt >> output/time_par_64.txt
 lab3.out input/input64.txt >> output/time_par_64.txt
 lab3.out input/input64.txt >> output/time_par_64.txt
 lab3.out input/input64.txt >> output/time_par_64.txt
+
+
+# сравнение реализаций
+nvcc lab3_new.cu -o lab3_new.out
+# time
+lab3_seq.out input/input512.txt output/time_seq_512.txt >> output/time_seq_512.txt
+
+lab3_seq.out input/input1024.txt output/time_seq_1024.txt >> output/time_seq_1024.txt
+
+
+
+lab3.out input/input512.txt >> output/time_par_old_512.txt
+lab3.out input/input512.txt >> output/time_par_old_512.txt
+lab3.out input/input512.txt >> output/time_par_old_512.txt512
+lab3.out input/input512.txt >> output/time_par_old_512.txt
+lab3.out input/input512.txt >> output/time_par_old_512.txt
+
+lab3.out input/input1024.txt >> output/time_par_old_1024.txt
+lab3.out input/input1024.txt >> output/time_par_old_1024.txt
+lab3.out input/input1024.txt >> output/time_par_old_1024.txt
+lab3.out input/input1024.txt >> output/time_par_old_1024.txt
+lab3.out input/input1024.txt >> output/time_par_old_1024.txt
+
+
+
+lab3_new.out input/input512.txt >> output/time_par_new_512.txt
+lab3_new.out input/input512.txt >> output/time_par_new_512.txt
+lab3_new.out input/input512.txt >> output/time_par_new_512.txt
+lab3_new.out input/input512.txt >> output/time_par_new_512.txt
+lab3_new.out input/input512.txt >> output/time_par_new_512.txt
+
+lab3_new.out input/input1024.txt >> output/time_par_new_1024.txt
+lab3_new.out input/input1024.txt >> output/time_par_new_1024.txt
+lab3_new.out input/input1024.txt >> output/time_par_new_1024.txt
+lab3_new.out input/input1024.txt >> output/time_par_new_1024.txt
+lab3_new.out input/input1024.txt >> output/time_par_new_1024.txt
+
+# output
+lab3_seq.out input/input512.txt output/output_seq_512.txt > output/output_seq_512.txt
+
+lab3.out input/input512.txt > output/output_par_old_512.txt
+
+lab3_new.out input/input512.txt > output/output_par_new_512.txt
